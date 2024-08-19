@@ -41,7 +41,11 @@ func (s *Store) SessionFindByID(ctx context.Context, id string) (*Session, error
 
 	sessions, err := pgx.CollectRows(rows, pgx.RowToStructByName[Session])
 	if err != nil {
-		fmt.Printf("collectRows error: %v", err)
+		return nil, err
+	}
+
+	if len(sessions) == 0 {
+		return nil, ErrNotFound
 	}
 
 	return &sessions[0], nil

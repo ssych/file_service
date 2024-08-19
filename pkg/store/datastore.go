@@ -1,8 +1,12 @@
 package store
 
 import (
+	"errors"
+
 	"github.com/ssych/file_service/pkg/storage"
 )
+
+var ErrNotFound = errors.New("not found")
 
 type Store struct {
 	storage *storage.DB

@@ -2,7 +2,6 @@ package store
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -24,7 +23,11 @@ func (s *Store) UserFindByLogin(ctx context.Context, login string) (*User, error
 
 	users, err := pgx.CollectRows(rows, pgx.RowToStructByName[User])
 	if err != nil {
-		fmt.Printf("CollectRows error: %v", err)
+		return nil, err
+	}
+
+	if len(users) == 0 {
+		return nil, ErrNotFound
 	}
 
 	return &users[0], nil
